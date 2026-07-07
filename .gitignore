@@ -1,0 +1,16 @@
+.venv/
+__pycache__/
+*.pyc
+*.pyo
+
+.vscode/
+.idea/
+
+.pytest_cache/
+
+.ephe_cache/
+
+.env
+.env.*
+
+*.log
