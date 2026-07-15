@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Kundali Prediction</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f5f5f5;
+            margin: 0;
+            padding: 40px;
+        }
+
+        .container {
+            max-width: 700px;
+            margin: auto;
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        label {
+            display: block;
+            margin-top: 15px;
+            margin-bottom: 5px;
+        }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            box-sizing: border-box;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            margin-top: 25px;
+            cursor: pointer;
+        }
+
+        #result {
+            margin-top: 30px;
+            white-space: pre-wrap;
+            line-height: 1.6;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1>Kundali Prediction</h1>
+
+    <label>Date of Birth</label>
+    <input type="date" id="date">
+
+    <label>Time of Birth</label>
+    <input type="time" id="time" step="1">
+
+    <label>Latitude</label>
+    <input
+        type="number"
+        id="latitude"
+        step="any"
+        placeholder="Example: 28.6139"
+    >
+
+    <label>Longitude</label>
+    <input
+        type="number"
+        id="longitude"
+        step="any"
+        placeholder="Example: 77.2090"
+    >
+
+    <button onclick="generatePrediction()">
+        Generate Prediction
+    </button>
+
+    <div id="result"></div>
+
+</div>
+
+<script>
+
+async function generatePrediction() {
+
+    const date = document.getElementById("date").value;
+    const time = document.getElementById("time").value;
+    const latitude = document.getElementById("latitude").value;
+    const longitude = document.getElementById("longitude").value;
+
+    const result = document.getElementById("result");
+
+    if (!date || !time || !latitude || !longitude) {
+        result.innerText = "Please fill in all fields.";
+        return;
+    }
+
+    result.innerText = "Generating your Kundali prediction...";
+
+    try {
+
+        const params = new URLSearchParams({
+            date,
+            time,
+            latitude,
+            longitude
+        });
+
+        const response = await fetch(
+            `/kundali-prediction?${params.toString()}`,
+            {
+                method: "POST"
+            }
+        );
+
+        const data = await response.json();
+
+        if (!response.ok) {
+            result.innerText =
+                data.detail || "Unable to generate prediction.";
+            return;
+        }
+
+        result.innerText =
+            data.prediction || JSON.stringify(data, null, 2);
+
+    } catch (error) {
+
+        result.innerText =
+            "Something went wrong while generating the prediction.";
+
+        console.error(error);
+    }
+}
+
+</script>
+
+</body>
+</html>

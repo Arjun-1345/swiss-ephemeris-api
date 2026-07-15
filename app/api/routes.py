@@ -4,6 +4,7 @@ from fastapi import APIRouter, HTTPException
 
 from app.swiss.engine import SwissEngine
 from app.swiss.exceptions import InvalidPlanetError
+from app.llm.gemini import generate_kundali_prediction
 
 PLANETS = "Planets"
 HOUSES = "Houses"
@@ -396,3 +397,55 @@ def heliacal_route(
         latitude,
         longitude,
     )
+    
+    
+@router.post(
+    "/kundali-data",
+    tags=["Kundali"],
+    summary="Get Kundali Data",
+)
+def kundali_data_route(
+    date: str,
+    time: str,
+    latitude: float,
+    longitude: float,
+):
+    dt = datetime.fromisoformat(
+        f"{date}T{time}"
+    )
+
+    return engine.get_kundali_data(
+        dt,
+        latitude,
+        longitude,
+    )
+    
+    
+@router.post(
+    "/kundali-prediction",
+    tags=["Kundali"],
+    summary="Generate Kundali Prediction",
+)
+def kundali_prediction_route(
+    date: str,
+    time: str,
+    latitude: float,
+    longitude: float,
+):
+    dt = datetime.fromisoformat(
+        f"{date}T{time}"
+    )
+
+    kundali_data = engine.get_kundali_data(
+        dt,
+        latitude,
+        longitude,
+    )
+
+    prediction = generate_kundali_prediction(
+        kundali_data
+    )
+
+    return {
+        "prediction": prediction
+    }

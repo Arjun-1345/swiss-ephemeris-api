@@ -16,3 +16,5 @@ class PlanetResponse(BaseModel):
     speed_distance: float
 
     flags: int
+    retrograde: bool
+    motion: str
