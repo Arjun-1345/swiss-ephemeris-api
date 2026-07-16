@@ -15,7 +15,7 @@ client = genai.Client(
 def generate_kundali_prediction(kundali_data: dict) -> str:
 
     prompt = f"""
-You are an expert Vedic astrology interpretation assistant.
+You are an expert Vedic astrologer.
 
 Analyze the kundali data provided below and generate a structured
 astrological interpretation.
@@ -30,6 +30,8 @@ Important rules:
 -Do not return any typography symbol (like a dot or square) for bullet points in the output. Use ony - 
 - for numbering use only 1. this format for all numbers 1. 2. 3. 4. 5. 6. 7. 8. nothing else.
 -at the end of your response add "- By Arjun Gupta" with left alignment 
+-be ruthlessly honest in your interpretation, even if it may be uncomfortable for the user to hear. and do not sugarcoat the interpretation.
+-dont use complex words, use simple and easy to understand words in your interpretation.
 
 Provide sections for:
 1. Overall personality
@@ -47,7 +49,7 @@ Kundali data:
 """
 
     response = client.models.generate_content(
-        model="gemini-3-flash-preview",
+        model="gemini-3.1-flash-lite",
         contents=prompt,
     )
 
