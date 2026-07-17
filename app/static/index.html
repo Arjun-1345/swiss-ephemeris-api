@@ -66,21 +66,12 @@
     <label>Time of Birth</label>
     <input type="time" id="time" step="1">
 
-    <label>Latitude</label>
+    <label>Birthplace</label>
     <input
-        type="number"
-        id="latitude"
-        step="any"
-        placeholder="Example: 28.6139"
-    >
-
-    <label>Longitude</label>
-    <input
-        type="number"
-        id="longitude"
-        step="any"
-        placeholder="Example: 77.2090"
-    >
+    type="text"
+    id="location"
+    placeholder="Example: Noida, Uttar Pradesh, India"
+>
 
     <button onclick="generatePrediction()">
         Generate Prediction
@@ -96,12 +87,11 @@ async function generatePrediction() {
 
     const date = document.getElementById("date").value;
     const time = document.getElementById("time").value;
-    const latitude = document.getElementById("latitude").value;
-    const longitude = document.getElementById("longitude").value;
+    const location = document.getElementById("location").value;
 
     const result = document.getElementById("result");
 
-    if (!date || !time || !latitude || !longitude) {
+    if (!date || !time || !location) {
         result.innerText = "Please fill in all fields.";
         return;
     }
@@ -113,8 +103,7 @@ async function generatePrediction() {
         const params = new URLSearchParams({
             date,
             time,
-            latitude,
-            longitude
+            location
         });
 
         const response = await fetch(

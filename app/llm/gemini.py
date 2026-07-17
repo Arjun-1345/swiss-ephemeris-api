@@ -1,6 +1,5 @@
 import json
 import os
-import time
 
 from dotenv import load_dotenv
 from google import genai
@@ -49,17 +48,9 @@ Kundali data:
 {json.dumps(kundali_data, indent=2)}
 """
 
-    # Start timer
-    start = time.time()
-
     response = client.models.generate_content(
         model="gemini-3.1-flash-lite",
         contents=prompt,
     )
-
-    # Stop timer
-    elapsed = time.time() - start
-
-    print(f"Gemini response time: {elapsed:.2f} seconds")
 
     return response.text
